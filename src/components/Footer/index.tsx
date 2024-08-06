@@ -42,7 +42,8 @@ export const Footer = () => {
                     padding: '0 0 35px 0',
                     margin: 0,
                     textDecoration: 'underline',
-                    textUnderlineOffset: 5
+                    textUnderlineOffset: 5,
+                    cursor: 'pointer'
                 }}
                 onClick={sendWppMessage}
             >by. David Diaz H.</p>
