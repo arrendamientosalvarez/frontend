@@ -18,7 +18,7 @@ export const Search = () => {
   const [page, setPage] = useState(1);
   const { serviceType = 'all', code = 'all' } = useParams();
 
-  const { data: estates, error, isFetching, refetch } = useQuery({ queryKey: ['search'], queryFn: async () => {
+  const { data: estates, error, isFetching, refetch } = useQuery({ queryKey: ['search', page, serviceType, code], queryFn: async () => {
     if (serviceType === 'all' && code.length > 1) {
         return await axios.get(`${baseURL}/api/estates?cantidadporpagina=12&pagina=${page}&codigo=${code}`);
     } else if (serviceType !== 'all' && code === 'all') {
@@ -29,6 +29,13 @@ export const Search = () => {
         return await axios.get(`${baseURL}/api/estates?cantidadporpagina=12&pagina=${page}`);
     }
   } });
+
+  const totalPages = estates?.data?.[0]?.totalpaginas ?? page;
+  const hasNextPage = page < totalPages;
+
+  useEffect(() => {
+    setPage(1);
+  }, [serviceType, code]);
 
   useEffect(() => {
     scroll.scrollToTop({
@@ -92,7 +99,7 @@ export const Search = () => {
                                     ) : <div />
                                 }
                                 {
-                                    estates?.data?.length >= 1 && (
+                                    hasNextPage && estates?.data?.length >= 1 && (
                                         <button 
                                             disabled={isFetching || estates?.data?.length === 0}
                                             onClick={() => setPage(page + 1)}

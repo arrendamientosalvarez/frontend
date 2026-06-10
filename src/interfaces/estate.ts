@@ -6,8 +6,10 @@ export interface IEstate {
     area: number | string;
     municipio: string;
     barrio: string;
-    precio_venta: string;
-    precio: string;
+    precio_venta: string | number;
+    precio: string | number;
+    totalpaginas?: number;
+    totalinmuebles?: number;
 }
 
 export interface Image {
